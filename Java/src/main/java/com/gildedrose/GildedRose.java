@@ -21,21 +21,27 @@ class GildedRose {
     }
 
     public static boolean isNormalItem(Item item) {
-        if (!(item.name.equals(AGED_BRIE) || item.name.equals(HAND_OF_RAGNAROS) || item.name.equals(BACKSTAGE_PASS))) {
-            return true;
-        }
-        return false;
+        return !(item.name.equals(AGED_BRIE) || item.name.equals(HAND_OF_RAGNAROS) || item.name.equals(BACKSTAGE_PASS));
     }
 
     public static boolean isAgedBrie(Item item) {
-        if (item.name.equals(AGED_BRIE)) {
-            return true;
-        }
-        return false;
+        return item.name.equals(AGED_BRIE);
+    }
+
+    public static boolean isSulfuras(Item item) {
+        return item.name.equals(HAND_OF_RAGNAROS);
+    }
+
+    private static boolean isBackstagePass(Item item) {
+        return item.name.equals(BACKSTAGE_PASS);
     }
 
 
     public static void updateSingleItem(Item item) {
+        if(isSulfuras(item)){
+            return;
+        }
+
         if (isNormalItem(item)) {
             if (item.quality > 0) {
                 item.quality = item.quality - 1;
@@ -48,7 +54,7 @@ class GildedRose {
             }
         }
 
-        if(isAgedBrie(item)) {
+        if (isAgedBrie(item)) {
             item.sellIn = item.sellIn - 1;
 
             if (item.quality < 50) {
@@ -63,35 +69,31 @@ class GildedRose {
             }
         }
 
+        if (isBackstagePass(item)) {
 
-        if (item.name.equals(BACKSTAGE_PASS)) {
-            //  backstage pass
             item.sellIn = item.sellIn - 1;
 
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
 
-                if (item.name.equals(BACKSTAGE_PASS)) {
-//                    Backstage pass
-                    if (item.sellIn < 10) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
+                if (item.sellIn < 10) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
                     }
+                }
 
-                    if (item.sellIn < 5) {
-                        if (item.quality < 50) {
-                            item.quality = item.quality + 1;
-                        }
+                if (item.sellIn < 5) {
+                    if (item.quality < 50) {
+                        item.quality = item.quality + 1;
                     }
                 }
             }
-        }
 
-        if (item.sellIn < 0) {
-            if (item.name.equals(BACKSTAGE_PASS)) {
+            if (item.sellIn < 0) {
                 item.quality = 0;
             }
         }
+
     }
+
 }
