@@ -27,6 +27,13 @@ class GildedRose {
         return false;
     }
 
+    public static boolean isAgedBrie(Item item) {
+        if (item.name.equals(AGED_BRIE)) {
+            return true;
+        }
+        return false;
+    }
+
 
     public static void updateSingleItem(Item item) {
         if (isNormalItem(item)) {
@@ -41,11 +48,26 @@ class GildedRose {
             }
         }
 
-
-        if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
-            // Brie and backstage pass
+        if(isAgedBrie(item)) {
             item.sellIn = item.sellIn - 1;
-            
+
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
+
+            }
+
+            if (item.sellIn < 0) {
+                if (item.quality < 50) {
+                    item.quality = item.quality + 1;
+                }
+            }
+        }
+
+
+        if (item.name.equals(BACKSTAGE_PASS)) {
+            //  backstage pass
+            item.sellIn = item.sellIn - 1;
+
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
 
@@ -69,12 +91,6 @@ class GildedRose {
         if (item.sellIn < 0) {
             if (item.name.equals(BACKSTAGE_PASS)) {
                 item.quality = 0;
-            }
-            if (item.name.equals(AGED_BRIE)) {
-//brie
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
             }
         }
     }
