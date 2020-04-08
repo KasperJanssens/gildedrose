@@ -20,19 +20,25 @@ class GildedRose {
         }
     }
 
+
+
     public static void updateSingleItem(Item item) {
         if (!item.name.equals(AGED_BRIE)
                 && !item.name.equals(BACKSTAGE_PASS)) {
+            // Normal and hand of ragnaros
             if (item.quality > 0) {
                 if (!item.name.equals(HAND_OF_RAGNAROS)) {
+//                    normal
                     item.quality = item.quality - 1;
                 }
             }
         } else {
+            // Brie and backstage pass
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
 
                 if (item.name.equals(BACKSTAGE_PASS)) {
+//                    Backstage pass
                     if (item.sellIn < 11) {
                         if (item.quality < 50) {
                             item.quality = item.quality + 1;
@@ -49,21 +55,24 @@ class GildedRose {
         }
 
         if (!item.name.equals(HAND_OF_RAGNAROS)) {
+//            normal, brie, pass
             item.sellIn = item.sellIn - 1;
         }
 
         if (item.sellIn < 0) {
             if (!item.name.equals(AGED_BRIE)) {
                 if (!item.name.equals(BACKSTAGE_PASS)) {
+                    //                Normal and raganros
                     if (item.quality > 0) {
                         if (!item.name.equals(HAND_OF_RAGNAROS)) {
                             item.quality = item.quality - 1;
                         }
                     }
                 } else {
-                    item.quality = item.quality - item.quality;
+                    item.quality = 0;
                 }
             } else {
+//brie and backstage pass
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
                 }
