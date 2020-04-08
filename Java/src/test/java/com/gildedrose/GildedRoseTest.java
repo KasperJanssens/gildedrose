@@ -9,11 +9,11 @@ class GildedRoseTest {
     public static final String HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final int SULFURAS_QUALITY = 80;
     public static final String AGED_BRIE = "Aged Brie";
-    public static final int MAX_QUALITY= 50;
+    public static final int MAX_QUALITY = 50;
     private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
 
     @Test
-    void testQualityDegradation_normalElement () {
+    void testQualityDegradation_normalElement() {
         Item item = new Item("foo", 2, 2);
 
         GildedRose.updateSingleItem(item);
@@ -34,7 +34,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testQualityDegradation_normalElementQualityDegradesDoubleAfterSellingDate () {
+    void testQualityDegradation_normalElementQualityDegradesDoubleAfterSellingDate() {
         Item item = new Item("foo", 0, 4);
 
         GildedRose.updateSingleItem(item);
@@ -55,7 +55,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testSulfuras_NeverDegradesInQualityOrSellinDate () {
+    void testSulfuras_NeverDegradesInQualityOrSellinDate() {
         Item item = new Item(HAND_OF_RAGNAROS, 2, SULFURAS_QUALITY);
 
         GildedRose.updateSingleItem(item);
@@ -76,7 +76,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testAgedBrie_IncreasesInQualityAsItgetsOlder () {
+    void testAgedBrie_IncreasesInQualityAsItgetsOlder() {
         Item item = new Item(AGED_BRIE, 6, 2);
 
         GildedRose.updateSingleItem(item);
@@ -97,7 +97,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void testAgedBrie_NeverGoesBeyondMaxQuality () {
+    void testAgedBrie_NeverGoesBeyondMaxQuality() {
         Item item = new Item(AGED_BRIE, 6, MAX_QUALITY - 1);
 
         GildedRose.updateSingleItem(item);
@@ -118,7 +118,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePasses_moreThan10DaysLeftNormalIncrease () {
+    void backstagePasses_moreThan10DaysLeftNormalIncrease() {
         Item item = new Item(BACKSTAGE_PASS, 13, 20);
 
         GildedRose.updateSingleItem(item);
@@ -135,7 +135,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePasses_lessThan10DaysButMoreThan5Left () {
+    void backstagePasses_lessThan10DaysButMoreThan5Left() {
         Item item = new Item(BACKSTAGE_PASS, 10, 20);
 
         GildedRose.updateSingleItem(item);
@@ -160,7 +160,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePasses_lessThan5DaysButMoreThan0Left () {
+    void backstagePasses_lessThan5DaysButMoreThan0Left() {
         Item item = new Item(BACKSTAGE_PASS, 5, 20);
 
         GildedRose.updateSingleItem(item);
@@ -186,7 +186,7 @@ class GildedRoseTest {
 
 
     @Test
-    void backstagePasses_noMoreThanMaxQuality_lowestSellin () {
+    void backstagePasses_noMoreThanMaxQuality_lowestSellin() {
         Item item = new Item(BACKSTAGE_PASS, 5, MAX_QUALITY);
 
         GildedRose.updateSingleItem(item);
@@ -194,8 +194,9 @@ class GildedRoseTest {
         assertThat(item.sellIn).isEqualTo(4);
 
     }
+
     @Test
-    void backstagePasses_noMoreThanMaxQuality_mediumSellin () {
+    void backstagePasses_noMoreThanMaxQuality_mediumSellin() {
         Item item = new Item(BACKSTAGE_PASS, 10, MAX_QUALITY);
 
         GildedRose.updateSingleItem(item);
@@ -205,7 +206,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePasses_noMoreThanMaxQuality_highestSellin () {
+    void backstagePasses_noMoreThanMaxQuality_highestSellin() {
         Item item = new Item(BACKSTAGE_PASS, 15, MAX_QUALITY);
 
         GildedRose.updateSingleItem(item);
@@ -215,7 +216,7 @@ class GildedRoseTest {
     }
 
     @Test
-    void backstagePasses_noValueAfterSellinDate () {
+    void backstagePasses_noValueAfterSellinDate() {
         Item item = new Item(BACKSTAGE_PASS, 1, 42);
 
         GildedRose.updateSingleItem(item);
