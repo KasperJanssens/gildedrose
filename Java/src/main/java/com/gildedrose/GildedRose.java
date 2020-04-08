@@ -44,29 +44,26 @@ class GildedRose {
 
         if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
             // Brie and backstage pass
+            item.sellIn = item.sellIn - 1;
+            
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
 
                 if (item.name.equals(BACKSTAGE_PASS)) {
 //                    Backstage pass
-                    if (item.sellIn < 11) {
+                    if (item.sellIn < 10) {
                         if (item.quality < 50) {
                             item.quality = item.quality + 1;
                         }
                     }
 
-                    if (item.sellIn < 6) {
+                    if (item.sellIn < 5) {
                         if (item.quality < 50) {
                             item.quality = item.quality + 1;
                         }
                     }
                 }
             }
-        }
-
-        if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
-//            brie, pass
-            item.sellIn = item.sellIn - 1;
         }
 
         if (item.sellIn < 0) {
