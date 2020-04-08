@@ -30,7 +30,7 @@ class GildedRose {
 
     public static void updateSingleItem(Item item) {
         if (isNormalItem(item)) {
-            if(item.quality >0) {
+            if (item.quality > 0) {
                 item.quality = item.quality - 1;
             }
             item.sellIn = item.sellIn - 1;
@@ -40,16 +40,9 @@ class GildedRose {
                 }
             }
         }
-        if (!item.name.equals(AGED_BRIE)
-                && !item.name.equals(BACKSTAGE_PASS)) {
-            // Normal and hand of ragnaros
-            if (item.quality > 0) {
-//                if (!item.name.equals(HAND_OF_RAGNAROS)) {
-//                    normal
 
-//                }
-            }
-        } else {
+
+        if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
             // Brie and backstage pass
             if (item.quality < 50) {
                 item.quality = item.quality + 1;
@@ -72,20 +65,16 @@ class GildedRose {
         }
 
         if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE_PASS)) {
-//            normal, brie, pass
+//            brie, pass
             item.sellIn = item.sellIn - 1;
         }
 
         if (item.sellIn < 0) {
-            if (!item.name.equals(AGED_BRIE)) {
-                if (!item.name.equals(BACKSTAGE_PASS)) {
-                    //                Normal and raganros
-
-                } else {
-                    item.quality = 0;
-                }
-            } else {
-//brie and backstage pass
+            if (item.name.equals(BACKSTAGE_PASS)) {
+                item.quality = 0;
+            }
+            if (item.name.equals(AGED_BRIE)) {
+//brie
                 if (item.quality < 50) {
                     item.quality = item.quality + 1;
                 }
