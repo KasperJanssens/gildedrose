@@ -2,15 +2,11 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
+import static com.gildedrose.GildedRose.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GildedRoseTest {
 
-    public static final String HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
-    public static final int SULFURAS_QUALITY = 80;
-    public static final String AGED_BRIE = "Aged Brie";
-    public static final int MAX_QUALITY = 50;
-    private static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
 
     @Test
     void testQualityDegradation_normalElement() {
