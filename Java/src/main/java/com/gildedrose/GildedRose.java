@@ -6,6 +6,7 @@ class GildedRose {
     public static final String HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final int SULFURAS_QUALITY = 80;
     public static final String AGED_BRIE = "Aged Brie";
+    public static final String CONJURED = "Conjured";
     public static final int MAX_QUALITY = 50;
     public static final String BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert";
     public static final int MIN_QUALITY = 0;
@@ -22,7 +23,7 @@ class GildedRose {
     }
 
     public static boolean isNormalItem(Item item) {
-        return !(item.name.equals(AGED_BRIE) || item.name.equals(HAND_OF_RAGNAROS) || item.name.equals(BACKSTAGE_PASS));
+        return !(item.name.equals(AGED_BRIE) || item.name.equals(HAND_OF_RAGNAROS) || item.name.equals(BACKSTAGE_PASS) || item.name.equals(CONJURED));
     }
 
     public static boolean isAgedBrie(Item item) {
@@ -31,6 +32,9 @@ class GildedRose {
 
     public static boolean isSulfuras(Item item) {
         return item.name.equals(HAND_OF_RAGNAROS);
+    }
+    public static boolean isConjuredItem(Item item) {
+        return item.name.equals(CONJURED);
     }
 
     private static boolean isBackstagePass(Item item) {
@@ -54,6 +58,11 @@ class GildedRose {
         if (isBackstagePass(item)) {
             int newSellIn = item.sellIn - 1;
             int newQuality = calculateNewQualityBackstagePass(newSellIn, item.quality);
+            return new Item(item.name, newSellIn, newQuality);
+        }
+        if(isConjuredItem(item)){
+            int newSellIn = item.sellIn - 1;
+            int newQuality = calculateNewQualityConjuredItem(newSellIn, item.quality);
             return new Item(item.name, newSellIn, newQuality);
         }
         return item;
@@ -86,6 +95,14 @@ class GildedRose {
             return Math.max(MIN_QUALITY, oldQuality - 2);
         } else {
             return Math.max(MIN_QUALITY, oldQuality - 1);
+        }
+    }
+
+    private static int calculateNewQualityConjuredItem(int newSellIn, int oldQuality) {
+        if (newSellIn < 0) {
+            return Math.max(MIN_QUALITY, oldQuality - 4);
+        } else {
+            return Math.max(MIN_QUALITY, oldQuality - 2);
         }
     }
 

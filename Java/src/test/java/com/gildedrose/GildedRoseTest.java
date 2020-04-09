@@ -29,6 +29,25 @@ class GildedRoseTest {
         assertThat(item4Updated.sellIn).isEqualTo(-2);
     }
 
+
+    @Test
+    public void conjuredItem_degradeDoubleAsFastAsNormal () {
+        Item item = new Item(CONJURED, 2, 8);
+
+        Item item1Updated = GildedRose.updateSingleItem(item);
+        assertThat(item1Updated.quality).isEqualTo(6);
+        assertThat(item1Updated.sellIn).isEqualTo(1);
+
+        Item item2Updated = GildedRose.updateSingleItem(item1Updated);
+        assertThat(item2Updated.quality).isEqualTo(4);
+        assertThat(item2Updated.sellIn).isEqualTo(0);
+
+        Item item3Updated = GildedRose.updateSingleItem(item2Updated);
+        assertThat(item3Updated.quality).isEqualTo(0);
+        assertThat(item3Updated.sellIn).isEqualTo(-1);
+    }
+
+
     @Test
     void testQualityDegradation_normalElementQualityDegradesDoubleAfterSellingDate() {
         Item item = new Item("foo", 0, 4);
@@ -213,5 +232,6 @@ class GildedRoseTest {
         assertThat(item2Updated.sellIn).isEqualTo(-1);
 
     }
+
 
 }
