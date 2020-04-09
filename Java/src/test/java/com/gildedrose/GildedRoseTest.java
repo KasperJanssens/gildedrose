@@ -2,6 +2,10 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.gildedrose.GildedRose.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +35,7 @@ class GildedRoseTest {
 
 
     @Test
-    public void conjuredItem_degradeDoubleAsFastAsNormal () {
+    public void conjuredItem_degradeDoubleAsFastAsNormal() {
         Item item = new Item(CONJURED, 2, 8);
 
         Item item1Updated = GildedRose.updateSingleItem(item);
@@ -74,8 +78,8 @@ class GildedRoseTest {
         Item item = new Item(HAND_OF_RAGNAROS, 2, SULFURAS_QUALITY);
 
         Item item1Updated = GildedRose.updateSingleItem(item);
-        assertThat(item1Updated .quality).isEqualTo(SULFURAS_QUALITY);
-        assertThat(item1Updated .sellIn).isEqualTo(2);
+        assertThat(item1Updated.quality).isEqualTo(SULFURAS_QUALITY);
+        assertThat(item1Updated.sellIn).isEqualTo(2);
 
     }
 
@@ -133,7 +137,7 @@ class GildedRoseTest {
         assertThat(item2Updated.quality).isEqualTo(22);
         assertThat(item2Updated.sellIn).isEqualTo(11);
 
-        Item item3Updated =GildedRose.updateSingleItem(item2Updated);
+        Item item3Updated = GildedRose.updateSingleItem(item2Updated);
         assertThat(item3Updated.quality).isEqualTo(23);
         assertThat(item3Updated.sellIn).isEqualTo(10);
     }
@@ -154,7 +158,7 @@ class GildedRoseTest {
         assertThat(item3Updated.quality).isEqualTo(26);
         assertThat(item3Updated.sellIn).isEqualTo(7);
 
-        Item item4Updated = GildedRose.updateSingleItem(item3Updated );
+        Item item4Updated = GildedRose.updateSingleItem(item3Updated);
         assertThat(item4Updated.quality).isEqualTo(28);
         assertThat(item4Updated.sellIn).isEqualTo(6);
 
@@ -230,6 +234,38 @@ class GildedRoseTest {
         Item item2Updated = GildedRose.updateSingleItem(item1Updated);
         assertThat(item2Updated.quality).isEqualTo(0);
         assertThat(item2Updated.sellIn).isEqualTo(-1);
+    }
+
+    @Test
+    void gildedRoseTest() {
+        Item normalItem = new Item("foo", 0, 4);
+        Item backstagePass = new Item(BACKSTAGE_PASS, 1, 42);
+        Item agedBrie = new Item(AGED_BRIE, 6, MAX_QUALITY - 1);
+        Item sulfuras = new Item(HAND_OF_RAGNAROS, 2, SULFURAS_QUALITY);
+        Item conjured = new Item(CONJURED, 2, 8);
+        Item[] items = new Item[5];
+        items[0] = normalItem;
+        items[1] = backstagePass;
+        items[2] = agedBrie;
+        items[3] = sulfuras;
+        items[4] = conjured;
+
+        GildedRose gildedRose = new GildedRose(items);
+
+        assertThat(gildedRose.items).hasSize(5);
+
+        gildedRose.updateQuality();
+
+        assertThat(gildedRose.items).hasSize(5);
+
+        //Because we cannot change the items class we cannot add an equals or hash code and have to test in a more
+        //clumsy way
+        List<String> names = Arrays.stream(gildedRose.items).map(item -> item.name).collect(Collectors.toList());
+        assertThat(names).containsExactly("foo", BACKSTAGE_PASS, AGED_BRIE, HAND_OF_RAGNAROS, CONJURED);
+        List<Integer> sellIns = Arrays.stream(gildedRose.items).map(item -> item.sellIn).collect(Collectors.toList());
+        assertThat(sellIns).containsExactly(-1, 0, 5, 2, 1);
+        List<Integer> qualities = Arrays.stream(gildedRose.items).map(item -> item.quality).collect(Collectors.toList());
+        assertThat(qualities).containsExactly(2, 45, MAX_QUALITY, SULFURAS_QUALITY, 6);
 
     }
 

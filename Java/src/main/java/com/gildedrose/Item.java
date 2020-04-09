@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.Objects;
+
 public class Item {
 
     public String name;
@@ -18,4 +20,5 @@ public class Item {
    public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
+
 }
