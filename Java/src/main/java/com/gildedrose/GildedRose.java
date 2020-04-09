@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import java.util.Arrays;
+
 class GildedRose {
     public static final String HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     public static final int SULFURAS_QUALITY = 80;
@@ -16,9 +18,7 @@ class GildedRose {
 
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            updateSingleItem(items[i]);
-        }
+        items = Arrays.stream(items).map(GildedRose::updateSingleItem).toArray(Item[]::new);
     }
 
     public static boolean isNormalItem(Item item) {
@@ -38,32 +38,29 @@ class GildedRose {
     }
 
 
-    public static void updateSingleItem(Item item) {
-        if (isSulfuras(item)) {
-            return;
-        }
-
+    public static Item updateSingleItem(Item item) {
         if (isNormalItem(item)) {
-            item.sellIn = item.sellIn - 1;
-            int newQuality = handleNormalItem(item.sellIn, item.quality);
-            item.quality = newQuality;
+            int newSellIn = item.sellIn - 1;
+            int newQuality = calculateNewQualityNormalItem(newSellIn, item.quality);
+            return new Item(item.name, newSellIn, newQuality);
         }
 
         if (isAgedBrie(item)) {
-            item.sellIn = item.sellIn - 1;
-            int newQuality = handleBrie(item.sellIn, item.quality);
-            item.quality = newQuality;
+            int newSellIn = item.sellIn - 1;
+            int newQuality = calculateNewQualityBrie(newSellIn, item.quality);
+            return new Item(item.name, newSellIn, newQuality);
         }
 
         if (isBackstagePass(item)) {
-            item.sellIn = item.sellIn - 1;
-            int newQuality = handleBackstagePass(item.sellIn, item.quality);
-            item.quality = newQuality;
+            int newSellIn = item.sellIn - 1;
+            int newQuality = calculateNewQualityBackstagePass(newSellIn, item.quality);
+            return new Item(item.name, newSellIn, newQuality);
         }
+        return item;
 
     }
 
-    private static int handleBackstagePass(int newSellIn, int oldQuality) {
+    private static int calculateNewQualityBackstagePass(int newSellIn, int oldQuality) {
         if (newSellIn < 0) {
             return MIN_QUALITY;
         }
@@ -76,7 +73,7 @@ class GildedRose {
         return Math.min(MAX_QUALITY, oldQuality + 1);
     }
 
-    private static int handleBrie(int newSellIn, int oldQuality) {
+    private static int calculateNewQualityBrie(int newSellIn, int oldQuality) {
         if (newSellIn < 0) {
             return Math.min(MAX_QUALITY, oldQuality + 2);
         } else {
@@ -84,7 +81,7 @@ class GildedRose {
         }
     }
 
-    private static int handleNormalItem(int newSellIn, int oldQuality) {
+    private static int calculateNewQualityNormalItem(int newSellIn, int oldQuality) {
         if (newSellIn < 0) {
             return Math.max(MIN_QUALITY, oldQuality - 2);
         } else {
