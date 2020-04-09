@@ -39,46 +39,57 @@ class GildedRose {
 
 
     public static void updateSingleItem(Item item) {
-        if(isSulfuras(item)){
+        if (isSulfuras(item)) {
             return;
         }
 
         if (isNormalItem(item)) {
             item.sellIn = item.sellIn - 1;
-            if (item.sellIn <0) {
-                item.quality = Math.max(MIN_QUALITY, item.quality - 2);
-            } else {
-                item.quality = Math.max(MIN_QUALITY, item.quality - 1);
-            }
+            int newQuality = handleNormalItem(item.sellIn, item.quality);
+            item.quality = newQuality;
         }
 
         if (isAgedBrie(item)) {
             item.sellIn = item.sellIn - 1;
-            if(item.sellIn <0){
-                item.quality = Math.min(MAX_QUALITY, item.quality + 2);
-            } else {
-                item.quality = Math.min(MAX_QUALITY, item.quality + 1);
-            }
-
+            int newQuality = handleBrie(item.sellIn, item.quality);
+            item.quality = newQuality;
         }
 
         if (isBackstagePass(item)) {
             item.sellIn = item.sellIn - 1;
-            if(item.sellIn < 0){
-                item.quality = MIN_QUALITY;
-            }
-            if(item.sellIn >= 0 && item.sellIn < 5){
-                item.quality = Math.min(MAX_QUALITY, item.quality  +3);
-            }
-            if(item.sellIn >=5 && item.sellIn <10) {
-                item.quality = Math.min(MAX_QUALITY, item.quality  +2);
-            }
-            if(item.sellIn >=10){
-                item.quality = Math.min(MAX_QUALITY, item.quality  +1);
-            }
-
+            int newQuality = handleBackstagePass(item.sellIn, item.quality);
+            item.quality = newQuality;
         }
 
+    }
+
+    private static int handleBackstagePass(int newSellIn, int oldQuality) {
+        if (newSellIn < 0) {
+            return MIN_QUALITY;
+        }
+        if (newSellIn < 5) {
+            return Math.min(MAX_QUALITY, oldQuality + 3);
+        }
+        if (newSellIn < 10) {
+            return Math.min(MAX_QUALITY, oldQuality + 2);
+        }
+        return Math.min(MAX_QUALITY, oldQuality + 1);
+    }
+
+    private static int handleBrie(int newSellIn, int oldQuality) {
+        if (newSellIn < 0) {
+            return Math.min(MAX_QUALITY, oldQuality + 2);
+        } else {
+            return Math.min(MAX_QUALITY, oldQuality + 1);
+        }
+    }
+
+    private static int handleNormalItem(int newSellIn, int oldQuality) {
+        if (newSellIn < 0) {
+            return Math.max(MIN_QUALITY, oldQuality - 2);
+        } else {
+            return Math.max(MIN_QUALITY, oldQuality - 1);
+        }
     }
 
 }
