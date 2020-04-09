@@ -22,10 +22,6 @@ class GildedRose {
         items = Arrays.stream(items).map(GildedRose::updateSingleItem).toArray(Item[]::new);
     }
 
-    public static boolean isNormalItem(Item item) {
-        return !(item.name.equals(AGED_BRIE) || item.name.equals(HAND_OF_RAGNAROS) || item.name.equals(BACKSTAGE_PASS) || item.name.equals(CONJURED));
-    }
-
     public static boolean isAgedBrie(Item item) {
         return item.name.equals(AGED_BRIE);
     }
@@ -43,29 +39,26 @@ class GildedRose {
 
 
     public static Item updateSingleItem(Item item) {
-        if (isNormalItem(item)) {
-            int newSellIn = item.sellIn - 1;
-            int newQuality = calculateNewQualityNormalItem(newSellIn, item.quality);
-            return new Item(item.name, newSellIn, newQuality);
-        }
-
+        int newSellIn = item.sellIn - 1;
         if (isAgedBrie(item)) {
-            int newSellIn = item.sellIn - 1;
             int newQuality = calculateNewQualityBrie(newSellIn, item.quality);
             return new Item(item.name, newSellIn, newQuality);
         }
 
         if (isBackstagePass(item)) {
-            int newSellIn = item.sellIn - 1;
             int newQuality = calculateNewQualityBackstagePass(newSellIn, item.quality);
             return new Item(item.name, newSellIn, newQuality);
         }
         if(isConjuredItem(item)){
-            int newSellIn = item.sellIn - 1;
             int newQuality = calculateNewQualityConjuredItem(newSellIn, item.quality);
             return new Item(item.name, newSellIn, newQuality);
         }
-        return item;
+        if(isSulfuras(item)) {
+            return item;
+        }
+
+        int newQuality = calculateNewQualityNormalItem(newSellIn, item.quality);
+        return new Item(item.name, newSellIn, newQuality);
 
     }
 
